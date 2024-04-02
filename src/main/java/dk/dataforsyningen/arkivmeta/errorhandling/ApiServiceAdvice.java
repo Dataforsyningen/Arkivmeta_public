@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.apache.catalina.connector.ClientAbortException;
+import org.jdbi.v3.core.ConnectionException;
 import org.jdbi.v3.core.statement.UnableToExecuteStatementException;
 import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
@@ -71,6 +72,17 @@ public class ApiServiceAdvice extends ResponseEntityExceptionHandler {
     String exceptionCause = getRootCause(exception).toString();
     logger.info(ERROR_STRING, exception);
     logger.info(ERROR_STRING, exceptionCause);
+  }
+
+  @ExceptionHandler(ConnectionException.class)
+  public ResponseEntity<ErrorResponse> handleConnectionException(
+      ConnectionException exception) {
+      String exceptionCause = getRootCause(exception).toString();
+
+      ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Connection issues");
+      logger.info(ERROR_STRING, exception);
+      logger.info(ERROR_STRING + exceptionCause);
+      return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   /**
