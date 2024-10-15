@@ -14,7 +14,7 @@
     <name>arkivmeta</name>
     <properties>
         <java.version>21</java.version>
-        <org.jdbi.version>3.45.1</org.jdbi.version>
+        <org.jdbi.version>3.45.2</org.jdbi.version>
     </properties>
     <dependencies>
         <dependency>
