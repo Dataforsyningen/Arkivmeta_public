@@ -290,7 +290,7 @@ Feature: Historiske Dokumenter API Integration Test
     {
         "status": "UNPROCESSABLE_ENTITY",
         "message": "JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String \"test\": not a valid `java.lang.Integer` value",
-        "errors":["com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Integer` from String \"test\": not a valid `java.lang.Integer` value\n at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 11] (through reference chain: dk.dataforsyningen.arkivmeta.dokument.apimodel.DokumentParam[\"offset\"])"]
+        "errors":["com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Integer` from String \"test\": not a valid `java.lang.Integer` value\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 11] (through reference chain: dk.dataforsyningen.arkivmeta.dokument.apimodel.DokumentParam[\"offset\"])"]
     }
     """
 

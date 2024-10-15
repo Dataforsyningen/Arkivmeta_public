@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dk.kortforsyningen</groupId>
@@ -14,7 +14,7 @@
     <name>arkivmeta</name>
     <properties>
         <java.version>21</java.version>
-        <org.jdbi.version>3.45.1</org.jdbi.version>
+        <org.jdbi.version>3.45.4</org.jdbi.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.4.0</version>
+            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.jdbi</groupId>
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
+            <version>42.7.4</version>
         </dependency>
     </dependencies>
 
