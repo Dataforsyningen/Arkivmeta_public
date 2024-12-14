@@ -1,17 +1,15 @@
 package dk.dataforsyningen.arkivmeta.kort.service;
 
 import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.ArketypeDto;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.DaekningsomraadeDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortParam;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortResult;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.KortvaerkDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.MaalestokDto;
-import dk.dataforsyningen.arkivmeta.kort.dao.IArketypeDao;
+import dk.dataforsyningen.arkivmeta.kort.dao.IKortgruppeWithKortvaerkerDao;
 import dk.dataforsyningen.arkivmeta.kort.dao.IDaekningsomraadeDao;
 import dk.dataforsyningen.arkivmeta.kort.dao.IKortDao;
-import dk.dataforsyningen.arkivmeta.kort.dao.IKortvaerkerDao;
 import dk.dataforsyningen.arkivmeta.kort.dao.IMaalestokDao;
 import dk.dataforsyningen.arkivmeta.kort.rest.KortApi;
 import java.util.List;
@@ -31,10 +29,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class KortService implements IKortService {
   private static final Logger logger = LoggerFactory.getLogger(KortApi.class);
-  private final IArketypeDao iArketypeDao;
+  private final IKortgruppeWithKortvaerkerDao iKortgruppeWithKortvaerkerDao;
   private final IDaekningsomraadeDao iDaekningsomraadeDao;
   private final IKortDao iKortDao;
-  private final IKortvaerkerDao iKortvaerkerDao;
   private final IMaalestokDao iMaalestokDao;
 
   /**
@@ -47,25 +44,24 @@ public class KortService implements IKortService {
    * https://stackoverflow.com/questions/40620000/spring-autowire-on-properties-vs-constructor
    * https://reflectoring.io/constructor-injection/
    */
-  public KortService(@Qualifier("arketypeDao") IArketypeDao iArketypeDao,
+  public KortService(@Qualifier("kortgruppeWithKortvaerkerDao")
+                     IKortgruppeWithKortvaerkerDao iKortgruppeWithKortvaerkerDao,
                      @Qualifier("daekningsomraadeDao") IDaekningsomraadeDao iDaekningsomraadeDao,
                      @Qualifier("kortDao") IKortDao iKortDao,
-                     @Qualifier("kortvaerkerDao") IKortvaerkerDao iKortvaerkerDao,
                      @Qualifier("maalestokDao") IMaalestokDao iMaalestokDao) {
-    this.iArketypeDao = iArketypeDao;
+    this.iKortgruppeWithKortvaerkerDao = iKortgruppeWithKortvaerkerDao;
     this.iDaekningsomraadeDao = iDaekningsomraadeDao;
     this.iKortDao = iKortDao;
-    this.iKortvaerkerDao = iKortvaerkerDao;
     this.iMaalestokDao = iMaalestokDao;
   }
 
   /**
-   * @return list of ArketypeDto with all arketyper, arkenavn and kortvaerker belonging to each arketyper
+   * @return list of KortgruppeDto with all kortvaerker belonging to each korgruppe
    */
   @Override
-  @Cacheable("arketyper")
-  public List<ArketypeDto> getArketyper() {
-    return iArketypeDao.getAllArketyper();
+  @Cacheable("kortgrupper")
+  public List<KortgruppeWithKortvaerkerDto> getKortgrupperWithKortvaerker() {
+    return iKortgruppeWithKortvaerkerDao.getAllKortgrupperWithKortvaerker();
   }
 
   /**
@@ -99,26 +95,6 @@ public class KortService implements IKortService {
     List<DaekningsomraadeDto> daekningsomraadeDtoList = iDaekningsomraadeDao
         .getDaekningsomraade(daekningsomraade);
     return daekningsomraadeDtoList;
-  }
-
-  /**
-   * Returns the list of KortvaerkDto starting with the given search criteria and ignorering the case
-   *
-   * @return list of KortvaerkDto of all kortvaerk available
-   */
-  @Override
-  @Cacheable("kortvaerker")
-  public List<KortvaerkDto> getKortvaerker(String arketype, String kortvaerk) {
-    if (StringUtils.isNotBlank(arketype)) {
-      List<KortvaerkDto> kortvaerkDtoList =
-          iKortvaerkerDao.getArketypeAndKortvaerk(
-              arketype.toUpperCase(), kortvaerk);
-      return kortvaerkDtoList;
-    } else {
-      List<KortvaerkDto> kortvaerkDtoList =
-          iKortvaerkerDao.getKortvaerk(kortvaerk);
-      return kortvaerkDtoList;
-    }
   }
 
   /**

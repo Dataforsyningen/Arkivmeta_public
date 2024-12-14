@@ -1,12 +1,11 @@
 package dk.dataforsyningen.arkivmeta.kort.rest;
 
 import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.ArketypeDto;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.DaekningsomraadeDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortParam;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortResult;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.KortvaerkDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.MaalestokDto;
 import dk.dataforsyningen.arkivmeta.kort.service.IKortService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,35 +64,15 @@ public class KortApi {
   }
 
   /**
-   * getArketyper() returns list of ArketypeDto with all arketyper, arkenavn and kortvaerker belonging to each arketyper
-   * and then this method stream and map only arketype to a List<String>
-   *
-   * @return list of string of all unique arketyper available
+   * @return list of KortgruppeDto with all kortvaerker belonging to each korgruppe
    */
-  @GetMapping(path = "/metadata/arketyper")
-  @Operation(summary = "Hent arketyper", description = "Leverer en liste af tilgængelige arketyper", responses = {
-          @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = String.class)))),
+  @GetMapping(path = "/metadata/kortgrupper/kortvaerker")
+  @Operation(summary = "Hent kortgrupper med underliggende kortværker", description = "Leverer en liste af tilgængelige kortgrupper, med de kortværker som hører til", responses = {
+          @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = KortgruppeWithKortvaerkerDto.class)))),
           @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
           @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
-  public ResponseEntity<List<String>> arketyper() {
-    List<String> arketypeList = iKortService.getArketyper()
-            .stream()
-            .map(ArketypeDto::getArketype)
-            .collect(Collectors.toList());
-
-    return new ResponseEntity<>(arketypeList, HttpStatus.OK);
-  }
-
-  /**
-   * @return list of ArketypeDto with all arketyper, arkenavn and kortvaerker belonging to each arketyper
-   */
-  @GetMapping(path = "/metadata/arketyper/kortvaerker")
-  @Operation(summary = "Hent arketyper med underliggende kortværker", description = "Leverer en liste af tilgængelige arketyper, med de kortværker som hører til", responses = {
-          @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ArketypeDto.class)))),
-          @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
-          @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
-  public ResponseEntity<List<ArketypeDto>> arketyperWithKortvaerker() {
-    List<ArketypeDto> arketypeList = iKortService.getArketyper();
+  public ResponseEntity<List<KortgruppeWithKortvaerkerDto>> kortgrupperWithKortvaerker() {
+    List<KortgruppeWithKortvaerkerDto> arketypeList = iKortService.getKortgrupperWithKortvaerker();
 
     return new ResponseEntity<>(arketypeList, HttpStatus.OK);
   }
@@ -115,27 +94,6 @@ public class KortApi {
             .map(DaekningsomraadeDto::getDaekningsomraade)
             .collect(Collectors.toList());
     return new ResponseEntity<>(daekningsomraadeList, HttpStatus.OK);
-  }
-
-  /**
-   * @param kortvaerk
-   * @return list of string of all kortvaerker available
-   */
-  @GetMapping(path = "/metadata/kortvaerker")
-  @Operation(summary = "Hent kortværker", description = "Leverer en liste af kortværker", responses = {
-          @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = String.class)))),
-          @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
-          @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
-  public ResponseEntity<List<String>> kortvaerk(
-          @Parameter(description = "Kortværker der har følgende arketype")
-          @RequestParam(defaultValue = "") String arketype,
-          @Parameter(description = "Filtrer med søgestreng") @RequestParam(defaultValue = "")
-          String kortvaerk) {
-    List<String> kortvaerkerList = iKortService.getKortvaerker(arketype, kortvaerk)
-            .stream()
-            .map(KortvaerkDto::getKortvaerk)
-            .collect(Collectors.toList());
-    return new ResponseEntity<>(kortvaerkerList, HttpStatus.OK);
   }
 
   /**

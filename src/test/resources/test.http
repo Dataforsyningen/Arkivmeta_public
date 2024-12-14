@@ -34,32 +34,9 @@ GET {{api_baseurl}}/kort?gaeldendefra=2000&gaeldendetil=2000&sort=gaeldendefra&d
 token: {{token}}
 
 ###
-# get all arketyper
-GET {{api_baseurl}}/metadata/arketyper
-token: {{token}}
-
-###
-# Test kald for arketyper
-GET {{api_baseurl}}/metadata/arketyper
+# Test kald for kortgrupper med kortværker
+GET {{api_baseurl}}/metadata/kortgrupper/kortvaerker
 Accept: application/json
-token: {{token}}
-
-###
-# Test kald for arketyper
-GET {{api_baseurl}}/metadata/arketyper
-Accept: application/json
-If-None-Match: "021c75f404b354104e009b5457fbd9e93"
-token: {{token}}
-
-###
-# Test kald for arketyper med kortværker
-GET {{api_baseurl}}/metadata/arketyper/kortvaerker
-Accept: application/json
-token: {{token}}
-
-###
-# get kortvaerker
-GET {{api_baseurl}}/metadata/kortvaerker
 token: {{token}}
 
 ###
@@ -215,13 +192,6 @@ Accept: application/json
 token: {{token}}
 
 ###
-# /kortvaerker
-GET {{api_baseurl}}/metadata/kortvaerker
-Accept: application/json
-token: {{token}}
-
-
-###
 # Ønskes returneret alle daekningsomraader
 GET {{api_baseurl}}/metadata/daekningsomraader
 Accept: application/json
@@ -230,18 +200,6 @@ token: {{token}}
 ###
 # Ønskes returneret alle de daekningsomraader der har den specificeret søgning i sig
 GET {{api_baseurl}}/metadata/daekningsomraader?daekningsomraade=sønderjylland
-Accept: application/json
-token: {{token}}
-
-###
-# Ønskes returneret alle de kortværker der har den specificeret arketype
-GET {{api_baseurl}}/metadata/kortvaerker?arketype=soekort
-Accept: application/json
-token: {{token}}
-
-###
-# Ønskes returneret alle de kortværker der har den specificeret søgning i sig
-GET {{api_baseurl}}/metadata/kortvaerker?kortvaerk=søkort
 Accept: application/json
 token: {{token}}
 
@@ -299,11 +257,6 @@ token: {{token}}
 ###
 # Swagger UI dokumentation test miljø
 GET {{api_baseurl}}/swagger-ui/index.html?configUrl=/rest/arkivmeta/v3/api-docs/swagger-config
-token: {{token}}
-
-###
-# /arketyper/kortvaerker
-GET {{api_baseurl}}/metadata/arketyper/kortvaerker
 token: {{token}}
 
 ###
