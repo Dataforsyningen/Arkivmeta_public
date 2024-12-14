@@ -72,9 +72,9 @@ public class KortApi {
           @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
           @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
   public ResponseEntity<List<KortgruppeWithKortvaerkerDto>> kortgrupperWithKortvaerker() {
-    List<KortgruppeWithKortvaerkerDto> arketypeList = iKortService.getKortgrupperWithKortvaerker();
+    List<KortgruppeWithKortvaerkerDto> kortgrupperWithKortvaerkerList = iKortService.getKortgrupperWithKortvaerker();
 
-    return new ResponseEntity<>(arketypeList, HttpStatus.OK);
+    return new ResponseEntity<>(kortgrupperWithKortvaerkerList, HttpStatus.OK);
   }
 
   /**
