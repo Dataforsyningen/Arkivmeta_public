@@ -14,7 +14,7 @@ public interface IMaalestokDao {
    */
   @SqlQuery("""
       SELECT maalestok
-      FROM arkivmeta_latest.a_maalestok
+      FROM historiskekort.maalestok
       WHERE (:maalestok IS NULL OR maalestok ilike '%' || :maalestok || '%')
       ORDER BY maalestok
       """)
