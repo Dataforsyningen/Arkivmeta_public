@@ -13,9 +13,9 @@ public interface IDaekningsomraadeDao {
    * https://jdbi.org/#_registerrowmapper
    */
   @SqlQuery("""
-      SELECT daekningomraade
-      FROM arkivmeta_latest.a_daekningomraade
-      WHERE (:daekningsomraade IS NULL OR daekningomraade ilike '%' || :daekningsomraade || '%')
+      SELECT daekningsomraade
+      FROM historiskekort.daekningsomraade
+      WHERE (:daekningsomraade IS NULL OR daekningsomraade ilike '%' || :daekningsomraade || '%')
       """)
   @RegisterRowMapper(DaekningsomraadeMapper.class)
   List<DaekningsomraadeDto> getDaekningsomraade(String daekningsomraade);

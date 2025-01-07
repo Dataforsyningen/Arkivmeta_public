@@ -15,7 +15,7 @@ public class DaekningsomraadeMapper implements RowMapper<DaekningsomraadeDto> {
 
   @Override
   public DaekningsomraadeDto map(ResultSet rs, StatementContext ctx) throws SQLException {
-    DaekningsomraadeDto dto = new DaekningsomraadeDto(rs.getString("daekningomraade"));
+    DaekningsomraadeDto dto = new DaekningsomraadeDto(rs.getString("daekningsomraade"));
 
     return dto;
   }
