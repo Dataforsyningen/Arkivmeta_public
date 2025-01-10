@@ -13,10 +13,14 @@ public interface IMaalestokDao {
    * https://jdbi.org/#_registerrowmapper
    */
   @SqlQuery("""
-      SELECT maalestok
-      FROM historiskekort.maalestok
-      WHERE (:maalestok IS NULL OR maalestok ilike '%' || :maalestok || '%')
-      ORDER BY maalestok
+      SELECT
+          maalestok
+      FROM
+          historiskekort.maalestok
+      WHERE
+          (:maalestok IS NULL OR maalestok ilike '%' || :maalestok || '%')
+      ORDER BY
+          maalestok
       """)
   @RegisterRowMapper(MaalestokMapper.class)
   List<MaalestokDto> getMaalestok(String maalestok);

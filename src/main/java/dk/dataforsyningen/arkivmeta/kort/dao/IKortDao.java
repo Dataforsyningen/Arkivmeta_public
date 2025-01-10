@@ -4,6 +4,7 @@ import dk.dataforsyningen.arkivmeta.kort.apimapper.KortDtoMapper;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortDto;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindList;
@@ -20,14 +21,62 @@ public interface IKortDao {
    */
   @SqlQuery("""
       SELECT
-          *
+          id,
+          kortgruppe,
+          titel,
+          alternativtitel,
+          originalkortprojektion,
+          bemaerkning,
+          gaeldendeperiode_gaeldendefra,
+          gaeldendeperiode_gaeldendetil,
+          ST_AsEWKT(geometri) AS geometri,
+          maalestok,
+          kortbladnummer,
+          kortvaerk,
+          daekningsomraade,
+          filer,
+          aarfordata,
+          aarforenkeltrettelser,
+          aarforfotografering,
+          aarforfotogrametriskudtegning,
+          aarforhenlaeggelse,
+          aarforkompleteteretimarken,
+          aarforkortproeve,
+          aarforlineaerrettelse,
+          aarformaalt,
+          aarforopmaalingsluttet,
+          aarforpunktgrundlag,
+          aarforrettelse,
+          aarfortopografi,
+          aarforudarbejdelse,
+          aarforudarbejdetmateriale,
+          aarforudgivelse,
+          aarforudskiftning,
+          aarforudtegning,
+          aarforvejdata,
+          daasenummer,
+          farveskalatype,
+          flyvehoejde,
+          flyverute,
+          fotonummer,
+          fototid,
+          fotovinkel,
+          kameraid,
+          kortart,
+          opmaaltaf,
+          plannr,
+          producent,
+          tegner,
+          udgiver,
+          udskiftetaf,
+          "version"
       FROM
-          arkivmeta.arkivmeta
+          historiskekort.historiskekort
       WHERE
           id = :id
       """)
   @RegisterRowMapper(KortDtoMapper.class)
-  Optional<KortDto> getKortById(@Bind("id") String id);
+  Optional<KortDto> getKortById(@Bind("id") UUID id);
 
 
   /**
@@ -39,29 +88,77 @@ public interface IKortDao {
    */
   @SqlQuery("""
       SELECT
-          *
+          id,
+          kortgruppe,
+          titel,
+          alternativtitel,
+          originalkortprojektion,
+          bemaerkning,
+          gaeldendeperiode_gaeldendefra,
+          gaeldendeperiode_gaeldendetil,
+          ST_AsEWKT(geometri) AS geometri,
+          maalestok,
+          kortbladnummer,
+          kortvaerk,
+          daekningsomraade,
+          filer,
+          aarfordata,
+          aarforenkeltrettelser,
+          aarforfotografering,
+          aarforfotogrametriskudtegning,
+          aarforhenlaeggelse,
+          aarforkompleteteretimarken,
+          aarforkortproeve,
+          aarforlineaerrettelse,
+          aarformaalt,
+          aarforopmaalingsluttet,
+          aarforpunktgrundlag,
+          aarforrettelse,
+          aarfortopografi,
+          aarforudarbejdelse,
+          aarforudarbejdetmateriale,
+          aarforudgivelse,
+          aarforudskiftning,
+          aarforudtegning,
+          aarforvejdata,
+          daasenummer,
+          farveskalatype,
+          flyvehoejde,
+          flyverute,
+          fotonummer,
+          fototid,
+          fotovinkel,
+          kameraid,
+          kortart,
+          opmaaltaf,
+          plannr,
+          producent,
+          tegner,
+          udgiver,
+          udskiftetaf,
+          "version"
       FROM
-          arkivmeta.arkivmeta
+          historiskekort.historiskekort
       WHERE
-          ((<arketype>) IS NULL
-              OR arketype IN (<arketype>))
+          ((<kortgruppe>) IS NULL
+              OR kortgruppe IN (<kortgruppe>))
           AND (:daekningsomraade IS NULL
               -- How to use SIMILAR TO instead of like, when the parameter value can be a list
               -- https://stackoverflow.com/questions/4928054/postgresql-wildcard-like-for-any-of-a-list-of-words
-              OR lower(daekningsomraade) SIMILAR TO lower('%(' || :daekningsomraade || ')%'))
+              OR lower(daekningsomraade::TEXT) SIMILAR TO lower('%(' || :daekningsomraade || ')%'))
           AND (:fritekstsoegning IS NULL
               OR fritekstsoegning @@ plainto_tsquery('simple', :fritekstsoegning))
           AND
               CASE
                   -- If 'fra' is defined and 'til' is defined assume user want everything in between, and what is overlapping with 'til's
-                  WHEN (:gaeldendefra IS NOT NULL AND :gaeldendetil IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendefra AND gaeldendeperiode_gaeldendefra <= :gaeldendetil)
+                  WHEN (:gaeldendeperiode_gaeldendefra IS NOT NULL AND :gaeldendeperiode_gaeldendetil IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendeperiode_gaeldendefra AND gaeldendeperiode_gaeldendefra <= :gaeldendeperiode_gaeldendetil)
                   -- If 'fra' is defined assume user want everything after the 'fra' year
-                  WHEN (:gaeldendefra IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendefra)
+                  WHEN (:gaeldendeperiode_gaeldendefra IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendeperiode_gaeldendefra)
                   -- If 'til' is defined assume user want everything before the 'til' year
-                  WHEN (:gaeldendetil IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendefra <= :gaeldendetil)
+                  WHEN (:gaeldendeperiode_gaeldendetil IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendefra <= :gaeldendeperiode_gaeldendetil)
                   -- If the user did not define a year
                   ELSE
                       1 = 1
@@ -86,25 +183,23 @@ public interface IKortDao {
           -- We also need to split ASC and DESC because it is SQL feature and can not be a given
           -- user value
           CASE
-              WHEN (:direction = 'asc' AND :sort = 'arketype') THEN arketype
-              WHEN (:direction = 'asc' AND :sort = 'daekningsomraade') THEN daekningsomraade
+              WHEN (:direction = 'asc' AND :sort = 'kortgruppe') THEN kortgruppe
               -- We don't know why we need to cast gaeldendeperiode_gaeldendefra and
               -- gaeldendeperiode_gaeldendetil to varchar when it is the column name we are interested in
-              WHEN (:direction = 'asc' AND :sort = 'gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
-              WHEN (:direction = 'asc' AND :sort = 'gaeldendetil') THEN gaeldendeperiode_gaeldendetil::varchar
-              WHEN (:direction = 'asc' AND :sort = 'gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
+              WHEN (:direction = 'asc' AND :sort = 'gaeldendeperiode_gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
+              WHEN (:direction = 'asc' AND :sort = 'gaeldendeperiode_gaeldendetil') THEN gaeldendeperiode_gaeldendetil::varchar
+              WHEN (:direction = 'asc' AND :sort = 'gaeldendeperiode_gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
               WHEN (:direction = 'asc' AND :sort = 'kortvaerk') THEN kortvaerk
               WHEN (:direction = 'asc' AND :sort = 'maalestok') THEN maalestok
               WHEN (:direction = 'asc' AND :sort = 'titel') THEN titel
           END ASC,
           CASE
-              WHEN (:direction = 'desc' AND :sort = 'arketype') THEN arketype
-              WHEN (:direction = 'desc' AND :sort = 'daekningsomraade') THEN daekningsomraade
+              WHEN (:direction = 'desc' AND :sort = 'kortgruppe') THEN kortgruppe
               -- We don't know why we need to cast gaeldendeperiode_gaeldendefra and
               -- gaeldendeperiode_gaeldendetil to varchar when it is the column name we are interested in
-              WHEN (:direction = 'desc' AND :sort = 'gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
-              WHEN (:direction = 'desc' AND :sort = 'gaeldendetil') THEN gaeldendeperiode_gaeldendetil::varchar
-              WHEN (:direction = 'desc' AND :sort = 'gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
+              WHEN (:direction = 'desc' AND :sort = 'gaeldendeperiode_gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
+              WHEN (:direction = 'desc' AND :sort = 'gaeldendeperiode_gaeldendetil') THEN gaeldendeperiode_gaeldendetil::varchar
+              WHEN (:direction = 'desc' AND :sort = 'gaeldendeperiode_gaeldendefra') THEN gaeldendeperiode_gaeldendefra::varchar
               WHEN (:direction = 'desc' AND :sort = 'kortvaerk') THEN kortvaerk
               WHEN (:direction = 'desc' AND :sort = 'maalestok') THEN maalestok
               WHEN (:direction = 'desc' AND :sort = 'titel') THEN titel
@@ -129,11 +224,11 @@ public interface IKortDao {
       // So we need to change @BindList emptyhandling to give a String with "null"
       // https://github.com/jdbi/jdbi/issues/1131
       // https://jdbi.org/apidocs/org/jdbi/v3/sqlobject/customizer/BindList.EmptyHandling.html#NULL_STRING
-      @BindList(value = "arketype", onEmpty = BindList.EmptyHandling.NULL_STRING)
-          List<String> arketype,
+      @BindList(value = "kortgruppe", onEmpty = BindList.EmptyHandling.NULL_STRING)
+          List<String> kortgruppe,
       @Bind("daekningsomraade") String daekningsomraade,
       @Bind("fritekstsoegning") String fritekstsoegning,
-      @Bind("gaeldendefra") Integer gaeldendefra, @Bind("gaeldendetil") Integer gaeldendetil,
+      @Bind("gaeldendeperiode_gaeldendefra") Integer gaeldendeperiode_gaeldendefra, @Bind("gaeldendeperiode_gaeldendetil") Integer gaeldendeperiode_gaeldendetil,
       @Bind("area") Geometry area, @Bind("kortbladnummer") String kortbladnummer,
       @BindList(value = "kortvaerk", onEmpty = BindList.EmptyHandling.NULL_STRING)
       List<String> kortvaerk,
@@ -154,27 +249,27 @@ public interface IKortDao {
       SELECT
         COUNT(*)
       FROM
-          arkivmeta.arkivmeta
+          historiskekort.historiskekort
       WHERE
-          ((<arketype>) IS NULL
-              OR arketype IN (<arketype>))
+          ((<kortgruppe>) IS NULL
+              OR kortgruppe IN (<kortgruppe>))
           AND (:daekningsomraade IS NULL
               -- How to use SIMILAR TO instead of like, when the parameter value can be a list
               -- https://stackoverflow.com/questions/4928054/postgresql-wildcard-like-for-any-of-a-list-of-words
-              OR lower(daekningsomraade) SIMILAR TO lower('%(' || :daekningsomraade || ')%'))
+              OR lower(daekningsomraade::TEXT) SIMILAR TO lower('%(' || :daekningsomraade || ')%'))
           AND (:fritekstsoegning IS NULL
               OR fritekstsoegning @@ plainto_tsquery('simple', :fritekstsoegning))
           AND
               CASE
                   -- If 'fra' is defined and 'til' is defined assume user want everything in between, and what is overlapping with 'til's
-                  WHEN (:gaeldendefra IS NOT NULL AND :gaeldendetil IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendefra AND gaeldendeperiode_gaeldendefra <= :gaeldendetil)
+                  WHEN (:gaeldendeperiode_gaeldendefra IS NOT NULL AND :gaeldendeperiode_gaeldendetil IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendeperiode_gaeldendefra AND gaeldendeperiode_gaeldendefra <= :gaeldendeperiode_gaeldendetil)
                   -- If 'fra' is defined assume user want everything after the 'fra' year
-                  WHEN (:gaeldendefra IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendefra)
+                  WHEN (:gaeldendeperiode_gaeldendefra IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendetil >= :gaeldendeperiode_gaeldendefra)
                   -- If 'til' is defined assume user want everything before the 'til' year
-                  WHEN (:gaeldendetil IS NOT NULL)
-                      THEN (gaeldendeperiode_gaeldendefra <= :gaeldendetil)
+                  WHEN (:gaeldendeperiode_gaeldendetil IS NOT NULL)
+                      THEN (gaeldendeperiode_gaeldendefra <= :gaeldendeperiode_gaeldendetil)
                   -- If the user did not define a year
                   ELSE
                       1 = 1
@@ -199,11 +294,11 @@ public interface IKortDao {
       // So we need to change @BindList emptyhandling to give a String with "null"
       // https://github.com/jdbi/jdbi/issues/1131
       // https://jdbi.org/apidocs/org/jdbi/v3/sqlobject/customizer/BindList.EmptyHandling.html#NULL_STRING
-      @BindList(value = "arketype", onEmpty = BindList.EmptyHandling.NULL_STRING)
-          List<String> arketype,
+      @BindList(value = "kortgruppe", onEmpty = BindList.EmptyHandling.NULL_STRING)
+          List<String> kortgruppe,
       @Bind("daekningsomraade") String daekningsomraade,
       @Bind("fritekstsoegning") String fritekstsoegning,
-      @Bind("gaeldendefra") Integer gaeldendefra, @Bind("gaeldendetil") Integer gaeldendetil,
+      @Bind("gaeldendeperiode_gaeldendefra") Integer gaeldendeperiode_gaeldendefra, @Bind("gaeldendeperiode_gaeldendetil") Integer gaeldendeperiode_gaeldendetil,
       @Bind("area") Geometry area, @Bind("kortbladnummer") String kortbladnummer,
       @BindList(value = "kortvaerk", onEmpty = BindList.EmptyHandling.NULL_STRING)
       List<String> kortvaerk,

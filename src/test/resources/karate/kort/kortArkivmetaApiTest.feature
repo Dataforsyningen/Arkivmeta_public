@@ -114,52 +114,52 @@ Feature: Arkivmeta API Integration Test
     Then match response.kort[*].maalestok contains deep maalestok
 
   
-  Scenario: Arkiv API /kort - search with gaeldendefra and gaeldendetil
+  Scenario: Arkiv API /kort - search with gaeldendeperiode_gaeldendefra and gaeldendeperiode_gaeldendetil
 
     Given path '/kort'
-    And param gaeldendefra = '2000'
-    And param gaeldendetil = '2000'
+    And param gaeldendeperiode_gaeldendefra = '2000'
+    And param gaeldendeperiode_gaeldendetil = '2000'
     When method get
     Then status 200
-    And def gaeldendefra = '2000'
-    And def gaeldendetil = '2000'
-    And def responseGaeldendeFra = get response.kort[*].gaeldendefra
-    And def responseGaeldendeTil = get response.kort[*].gaeldendetil
+    And def gaeldendeperiode_gaeldendefra = '2000'
+    And def gaeldendeperiode_gaeldendetil = '2000'
+    And def responseGaeldendeFra = get response.kort[*].gaeldendeperiode_gaeldendefra
+    And def responseGaeldendeTil = get response.kort[*].gaeldendeperiode_gaeldendetil
 
     # https://intuit.github.io/karate/#match-contains-deep
 
-    Then match responseGaeldendeTil contains deep '#? _ >= gaeldendefra'
-    And match responseGaeldendeFra contains deep '#? _ <= gaeldendetil'
+    Then match responseGaeldendeTil contains deep '#? _ >= gaeldendeperiode_gaeldendefra'
+    And match responseGaeldendeFra contains deep '#? _ <= gaeldendeperiode_gaeldendetil'
 
   
-  Scenario: Arkiv API /kort - search with gaeldendefra
+  Scenario: Arkiv API /kort - search with gaeldendeperiode_gaeldendefra
 
     Given path '/kort'
-    And param gaeldendefra = '2000'
+    And param gaeldendeperiode_gaeldendefra = '2000'
     When method get
     Then status 200
-    And def gaeldendefra = '2000'
-    And def responseGaeldendeFra = get response.kort[*].gaeldendefra
-    And def responseGaeldendeTil = get response.kort[*].gaeldendetil
+    And def gaeldendeperiode_gaeldendefra = '2000'
+    And def responseGaeldendeFra = get response.kort[*].gaeldendeperiode_gaeldendefra
+    And def responseGaeldendeTil = get response.kort[*].gaeldendeperiode_gaeldendetil
 
     # https://intuit.github.io/karate/#match-contains-deep
 
-    And match responseGaeldendeFra contains deep '#? _ >= gaeldendefra || _ < gaeldendefra && responseGaeldendeTil >= gaeldendefra'
+    And match responseGaeldendeFra contains deep '#? _ >= gaeldendeperiode_gaeldendefra || _ < gaeldendeperiode_gaeldendefra && responseGaeldendeTil >= gaeldendeperiode_gaeldendefra'
 
   
-  Scenario: Arkiv API /kort - search with gaeldendetil
+  Scenario: Arkiv API /kort - search with gaeldendeperiode_gaeldendetil
 
     Given path '/kort'
-    And param gaeldendetil = '1800'
+    And param gaeldendeperiode_gaeldendetil = '1800'
     When method get
     Then status 200
-    And def gaeldendetil = '1800'
-    And def responseGaeldendeFra = get response.kort[*].gaeldendefra
-    And def responseGaeldendeTil = get response.kort[*].gaeldendetil
+    And def gaeldendeperiode_gaeldendetil = '1800'
+    And def responseGaeldendeFra = get response.kort[*].gaeldendeperiode_gaeldendefra
+    And def responseGaeldendeTil = get response.kort[*].gaeldendeperiode_gaeldendetil
 
     # https://intuit.github.io/karate/#match-contains-deep
 
-    Then match responseGaeldendeTil contains deep '#? _ <= gaeldendetil || _ > gaeldendetil && responseGaeldendeFra <= gaeldendetil'
+    Then match responseGaeldendeTil contains deep '#? _ <= gaeldendeperiode_gaeldendetil || _ > gaeldendeperiode_gaeldendetil && responseGaeldendeFra <= gaeldendeperiode_gaeldendetil'
 
 
   Scenario: Arkiv API /kort - search with geometry
