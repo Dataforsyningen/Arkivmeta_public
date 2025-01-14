@@ -12,8 +12,11 @@ public interface IKortgruppeWithKortvaerkerDao {
    * https://jdbi.org/#_registerrowmapper
    */
   @SqlQuery("""
-      SELECT kortgruppe, kortvaerk
-      FROM historiskekort.kortgruppe_kortvaerk
+      SELECT
+          kortgruppe,
+           kortvaerk
+      FROM
+          historiskekort.kortgruppe_kortvaerk
       """)
   @RegisterRowMapper(KortgruppeWithKortvaerkerMapper.class)
   List<KortgruppeWithKortvaerkerDto> getAllKortgrupperWithKortvaerker();

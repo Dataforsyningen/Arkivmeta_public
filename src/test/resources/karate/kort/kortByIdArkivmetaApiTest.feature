@@ -4,9 +4,9 @@ Feature: Arkivmeta API Integration Test
     * url url
 
   
-  Scenario: Arkiv API /kort/{arketype}/{id}' - get kort by id
+  Scenario: Arkiv API /kort/{id}' - get kort by id
 
-    Given path '/kort/historiskeflyfoto/73236'
+    Given path '/kort/4567d2e9-4e33-46a9-8638-04a1af229778'
     When method get
     Then status 200
     
@@ -14,38 +14,58 @@ Feature: Arkivmeta API Integration Test
     And match response ==
     """
     {
-       "id":"historiskeflyfoto/73236",
-       "alternativtitel":null,
-       "arketype":"historiskeflyfoto",
-       "bemaerkning":null,
-       "daekningsomraade":[
-          "Danmark"
-       ],
-       "filer":[
-          "https://api.dataforsyningen.dk/rest/arkivkort/iiif/3/Lzc5IC0gZmx5Zm90byBHcsO4bmxhbmQvSUdJUyAyMDE5LzQ3My9jb21wcmVzc2VkXzEwLy9ERDIwMl82NjUxLmpwZw=="
-       ],
-       "gaeldendefra":1950,
-       "gaeldendetil":1975,
-       "geometri":null,
-       "kortbladnummer":null,
-       "kortvaerk":"Flyfoto 1940-1960",
-       "maalestok":"Ukendt",
-       "originalkortprojektion":null,
-       "originalehjoernekoordinater":null,
-       "registreringfra":"2021-08-06T17:12:53",
-       "registreringtil":null,
-       "titel":"flyfoto 1940-1960 rute D202 foto nr 6651",
-       "uniktkortnavn":"flyfoto 1940-1960 rute D202 foto nr 6651 DD202_6651.jpg 1950",
-       "daasenummer":"473",
-       "farveskalatype":"sort-hvid 8 bit",
-       "flyvehoejde":2440.0,
-       "flyverute":"D202",
-       "fotocenterxkoordinat":null,
-       "fotocenterykoordinat":null,
-       "fotonummer":"6651",
-       "fototid":null,
-       "fotovinkel":"skråfoto",
-       "kameraid":"Kameranr: 541",
-       "producent":null
+        "id": "4567d2e9-4e33-46a9-8638-04a1af229778",
+        "kortgruppe": "Tematiske Kort",
+        "titel": "Nyborg",
+        "alternativtitel": "D242, D243",
+        "originalkortprojektion": null,
+        "bemaerkning": "Bog: Sydjylland/m Fyn.",
+        "gaeldendeperiode_gaeldendefra": 1957,
+        "gaeldendeperiode_gaeldendetil": 1982,
+        "geometri": "SRID=4326;MULTIPOLYGON(((10.673453 55.4056,10.672441 55.27029,10.968673 55.269207,10.970705 55.404514,10.673453 55.4056)))",
+        "maalestok": "1:0000",
+        "kortbladnummer": "'A 3618'",
+        "kortvaerk": "DK flyfoto ruteoversigt 1961-1970",
+        "daekningsomraade": [
+            "Danmark"
+        ],
+        "filer": [
+            "/87 - flyfoto ruteoversigt Danmark/87-05 ruteoversigtskort 1961-1970/508/ro_3618_4.jpeg"
+        ],
+        "aarfordata": null,
+        "aarforenkeltrettelser": [],
+        "aarforfotografering": null,
+        "aarforfotogrametriskudtegning": null,
+        "aarforhenlaeggelse": null,
+        "aarforkompleteteretimarken": null,
+        "aarforkortproeve": null,
+        "aarforlineaerrettelse": null,
+        "aarformaalt": null,
+        "aarforopmaalingsluttet": null,
+        "aarforpunktgrundlag": null,
+        "aarforrettelse": [],
+        "aarfortopografi": null,
+        "aarforudarbejdelse": null,
+        "aarforudarbejdetmateriale": 1957,
+        "aarforudgivelse": null,
+        "aarforudskiftning": null,
+        "aarforudtegning": null,
+        "aarforvejdata": null,
+        "daasenummer": null,
+        "farveskalatype": null,
+        "flyvehoejde": null,
+        "flyverute": null,
+        "fotonummer": null,
+        "fototid": null,
+        "fotovinkel": null,
+        "kameraid": null,
+        "kortart": null,
+        "opmaaltaf": null,
+        "plannr": null,
+        "producent": null,
+        "tegner": null,
+        "udgiver": null,
+        "udskiftetaf": null,
+        "version": null
     }
     """

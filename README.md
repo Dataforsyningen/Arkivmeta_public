@@ -6,7 +6,7 @@ Baseret på Spring Boot, Hibernate og OpenAPI. Skrevet i Java.
 
 ## Breaking change:
 
-### arketype
+### kortgruppe
 
 Man skal ikke længere angive flere værdier med `|` som seperator men i stedet for bruge komma `,`.
 
@@ -14,11 +14,11 @@ Man skal ikke længere angive flere værdier med `|` som seperator men i stedet 
 
 Man skal ikke længere angive flere værdier med `|` som seperator men i stedet for bruge komma `,`.
 
-### gaeldendefra
+### gaeldendeperiode_gaeldendefra
 
 Har ikke længere end default værdi, så hvis man ikke angiver et årstal, søges der for alle år
 
-### gaeldendetil
+### gaeldendeperiode_gaeldendetil
 
 Har ikke længere end default værdi, så hvis man ikke angiver et årstal, søges der for alle år
 

@@ -11,12 +11,6 @@ import java.util.List;
 public class KortParam {
 
   @Parameter(description =
-          "Arketype, se /metadata/arketyper. Hvis der ønskes at søge på flere arketyper på en gang, skal man adskille hvert søgekriterie ved at bruge komma `,`. " +
-                  "Eksempel: `arketype=matrikelkort,centimeterkort.`")
-  @ArraySchema(arraySchema = @Schema(description = "Kortets arketype."))
-  private List<String> arketype;
-
-  @Parameter(description =
           "Dækningsområde, se /metadata/daekningsomraader. Hvis der ønskes at søge på flere dækningsområde på en gang, skal man adskille hvert søgekriterie ved at bruge `,`. " +
                   "Eksempel: `daekningsomraade=Slesvig,Danmark`")
   @ArraySchema(arraySchema = @Schema(description = "Geografisk område, som kortet dækker helt eller delvist. For eksempel Danmark, Grønland. Et kort kan have flere dækningsområder.For prøvekort og lignende vil dækningsområdet kunne angives som intet."))
@@ -31,10 +25,10 @@ public class KortParam {
   private String fritekstsoegning;
 
   @Schema(description = "Starttid for kortets gyldighedsperiode. Angives i hele år, eksempel `1966`. Gyldighedsperiodens starttid er et korts trykke-, tegne-, optage- eller opmålingsår – dvs. det år hvor kortet kan siges at være nyeste kort.")
-  private Integer gaeldendefra;
+  private Integer gaeldendeperiode_gaeldendefra;
 
   @Schema(description = "Sluttid for kortets gyldighedsperiode. Angives i hele år, eksempel `1966`. Typisk fordi kortet erstattes af et nyere. Hvis der ikke er fundet en specifik gældende til periode angives et årstal der ligger 50 år efter gældende fra.")
-  private Integer gaeldendetil;
+  private Integer gaeldendeperiode_gaeldendetil;
 
   @Schema(description = "Geometri angives som WKT med SRS = EPSG:4326. Det geografiske område, ofte en polygon, som kortet ligger indenfor.")
   private String geometri;
@@ -43,20 +37,26 @@ public class KortParam {
   private String kortbladnummer;
 
   @Parameter(description =
-          "Målestoksforhold. Hvis der ønskes at søge på flere målestoksforhold på en gang, skal man adskille hvert søgekriterie ved at bruge `,`. " +
-                  "Eksempel: `maalestok=1:40000,1:180000`")
-  @ArraySchema(arraySchema = @Schema(description = "Størrelsesforholdet mellem landskabet og kortets repræsentation heraf."))
-  private List<String> maalestok;
+      "Kortgruppe, se /metadata/arketyper. Hvis der ønskes at søge på flere arketyper på en gang, skal man adskille hvert søgekriterie ved at bruge komma `,`. " +
+          "Eksempel: `kortgruppe=matrikelkort,centimeterkort.`")
+  @ArraySchema(arraySchema = @Schema(description = "Kortets kortgruppe."))
+  private List<String> kortgruppe;
 
   @Schema(description = "Sidestørrelse, dvs. hvor mange poster pr. side", defaultValue = "100")
   @Min(1)
   @Max(1000)
   private Integer limit;
 
+  @Parameter(description =
+          "Målestoksforhold. Hvis der ønskes at søge på flere målestoksforhold på en gang, skal man adskille hvert søgekriterie ved at bruge `,`. " +
+                  "Eksempel: `maalestok=1:40000,1:180000`")
+  @ArraySchema(arraySchema = @Schema(description = "Størrelsesforholdet mellem landskabet og kortets repræsentation heraf."))
+  private List<String> maalestok;
+
   @Schema(description = "Offset, dvs. fra hvilken post", defaultValue = "0")
   private Integer offset;
 
-  @Schema(description = "Sorteringsfelt, kan sortere på følgende typer: arketype, daekningsomraade, gaeldendefra, gaeldendetil, id, kortvaerk, maalestok, titel")
+  @Schema(description = "Sorteringsfelt, kan sortere på følgende typer: kortgruppe, daekningsomraade, gaeldendeperiode_gaeldendefra, gaeldendeperiode_gaeldendetil, id, kortvaerk, maalestok, titel")
   private String sort;
 
   @Schema(description = "Tegner på kortet.")
@@ -65,34 +65,27 @@ public class KortParam {
   @Schema(description = "Titlen på kortet.")
   private String titel;
 
-  public KortParam(List<String> arketype, List<String> daekningsomraade, String direction,
-                   String fritekstsoegning, Integer gaeldendefra, Integer gaeldendetil,
-                   String geometri, String kortbladnummer,
-                   List<String> maalestok, Integer limit, Integer offset, String sort,
+  public KortParam(List<String> daekningsomraade, String direction, String fritekstsoegning,
+                   Integer gaeldendeperiode_gaeldendefra, Integer gaeldendeperiode_gaeldendetil,
+                   String geometri, String kortbladnummer, List<String> kortgruppe, Integer limit,
+                   List<String> maalestok, Integer offset, String sort,
                    String tegner,
                    String titel) {
-    this.arketype = arketype;
+
     this.daekningsomraade = daekningsomraade;
     this.direction = direction;
     this.fritekstsoegning = fritekstsoegning;
-    this.gaeldendefra = gaeldendefra;
-    this.gaeldendetil = gaeldendetil;
+    this.gaeldendeperiode_gaeldendefra = gaeldendeperiode_gaeldendefra;
+    this.gaeldendeperiode_gaeldendetil = gaeldendeperiode_gaeldendetil;
     this.geometri = geometri;
     this.kortbladnummer = kortbladnummer;
-    this.maalestok = maalestok;
     this.limit = limit;
+    this.kortgruppe = kortgruppe;
+    this.maalestok = maalestok;
     this.offset = offset;
     this.sort = sort;
     this.tegner = tegner;
     this.titel = titel;
-  }
-
-  public List<String> getArketype() {
-    return arketype;
-  }
-
-  public void setArketype(List<String> arketype) {
-    this.arketype = arketype;
   }
 
   public List<String> getDaekningsomraade() {
@@ -119,20 +112,20 @@ public class KortParam {
     this.fritekstsoegning = fritekstsoegning;
   }
 
-  public Integer getGaeldendefra() {
-    return gaeldendefra;
+  public Integer getGaeldendeperiode_gaeldendefra() {
+    return gaeldendeperiode_gaeldendefra;
   }
 
-  public void setGaeldendefra(Integer gaeldendefra) {
-    this.gaeldendefra = gaeldendefra;
+  public void setGaeldendeperiode_gaeldendefra(Integer gaeldendeperiode_gaeldendefra) {
+    this.gaeldendeperiode_gaeldendefra = gaeldendeperiode_gaeldendefra;
   }
 
-  public Integer getGaeldendetil() {
-    return gaeldendetil;
+  public Integer getGaeldendeperiode_gaeldendetil() {
+    return gaeldendeperiode_gaeldendetil;
   }
 
-  public void setGaeldendetil(Integer gaeldendetil) {
-    this.gaeldendetil = gaeldendetil;
+  public void setGaeldendeperiode_gaeldendetil(Integer gaeldendeperiode_gaeldendetil) {
+    this.gaeldendeperiode_gaeldendetil = gaeldendeperiode_gaeldendetil;
   }
 
   public String getGeometri() {
@@ -151,12 +144,12 @@ public class KortParam {
     this.kortbladnummer = kortbladnummer;
   }
 
-  public List<String> getMaalestok() {
-    return maalestok;
+  public List<String> getKortgruppe() {
+    return kortgruppe;
   }
 
-  public void setMaalestok(List<String> maalestok) {
-    this.maalestok = maalestok;
+  public void setKortgruppe(List<String> kortgruppe) {
+    this.kortgruppe = kortgruppe;
   }
 
   public Integer getLimit() {
@@ -165,6 +158,14 @@ public class KortParam {
 
   public void setLimit(Integer limit) {
     this.limit = limit;
+  }
+
+  public List<String> getMaalestok() {
+    return maalestok;
+  }
+
+  public void setMaalestok(List<String> maalestok) {
+    this.maalestok = maalestok;
   }
 
   public Integer getOffset() {

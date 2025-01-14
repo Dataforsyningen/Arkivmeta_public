@@ -1,9 +1,9 @@
 package dk.dataforsyningen.arkivmeta.kort.rest;
 
-import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.DaekningsomraadeDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortDto;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortParam;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortResult;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.MaalestokDto;
@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -119,7 +120,7 @@ public class KortApi {
    * @return the method postKort() that handles the request
    */
   @GetMapping(path = "/kort")
-  @Operation(summary = "Liste af kort der matcher søgekriterierne", description = "Hvis gaeldendefra og gaeldendetil bliver brugt samtidig, er det alle kort, der er indenfor gyldighedsperioden eller har været gældende fra eller gældende til, i perioden", responses = {
+  @Operation(summary = "Liste af kort der matcher søgekriterierne", description = "Hvis gaeldendeperiode_gaeldendefra og gaeldendeperiode_gaeldendetil bliver brugt samtidig, er det alle kort, der er indenfor gyldighedsperioden eller har været gældende fra eller gældende til, i perioden", responses = {
           @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = KortResult.class))),
           @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
           @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
@@ -138,7 +139,7 @@ public class KortApi {
    * @return the kortresult with count of all kort matching search criteria and all kort matching search criteria. If not search criteria given then it returns all kort and the count
    */
   @PostMapping(path = "/kort")
-  @Operation(summary = "Liste af kort der matcher søgekriterierne", description = "Hvis gaeldendefra og gaeldendetil bliver brugt samtidig, er det alle kort, der er indenfor gyldighedsperioden eller har været gældende fra eller gældende til, i perioden", responses = {
+  @Operation(summary = "Liste af kort der matcher søgekriterierne", description = "Hvis gaeldendeperiode_gaeldendefra og gaeldendeperiode_gaeldendetil bliver brugt samtidig, er det alle kort, der er indenfor gyldighedsperioden eller har været gældende fra eller gældende til, i perioden", responses = {
           @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = KortResult.class))),
           @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
           @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
@@ -164,22 +165,19 @@ public class KortApi {
   }
 
   /**
-   * Returns the kort matching with specified {arketype}/{id} as JSON.
+   * Returns the kort matching with specified {id} as JSON.
    * <p>
    *
-   * @param arketype type of kort
    * @param id       the kort's id
-   * @return the kort with the arketype and id specified
+   * @return the kort with the kortgruppe and id specified
    */
-  @GetMapping(path = "/kort/{arketype}/{id}")
+  @GetMapping(path = "/kort/{id}")
   @Operation(summary = "Vis kort ud fra unik id", responses = {
           @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = KortDto.class))),
           @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
           @ApiResponse(responseCode = "401", description = "Authentication Failure", content = @Content(schema = @Schema(hidden = true))) })
-  public ResponseEntity<KortDto> kortById(
-          @Parameter(description = "arketype") @PathVariable String arketype,
-          @Parameter(description = "id") @PathVariable String id) {
-    KortDto result = iKortService.getKortById(arketype, id);
+  public ResponseEntity<KortDto> kortById(@Parameter(description = "id") @PathVariable UUID id) {
+    KortDto result = iKortService.getKortById(id);
 
     return new ResponseEntity<>(result, HttpStatus.OK);
   }

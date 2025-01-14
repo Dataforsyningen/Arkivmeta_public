@@ -29,8 +29,8 @@ GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland
 token: {{token}}
 
 ###
-# gaeldendefra=2000&gaeldendetil=2000&sort=gaeldendefra&direction=asc
-GET {{api_baseurl}}/kort?gaeldendefra=2000&gaeldendetil=2000&sort=gaeldendefra&direction=asc
+# gaeldendeperiode_gaeldendefra=2000&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=2000&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
 token: {{token}}
 
 ###
@@ -40,23 +40,23 @@ Accept: application/json
 token: {{token}}
 
 ###
-# fritekstsoegning=Sønderjylland&sort=arketype&direction=desc
-GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland&sort=arketype&direction=desc
+# fritekstsoegning=Sønderjylland&sort=kortgruppe&direction=desc
+GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland&sort=kortgruppe&direction=desc
 token: {{token}}
 
 ###
-# arketype=soekort&arketype=centimeterkort&direction=asc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
-GET {{api_baseurl}}/kort?arketype=soekort&arketype=centimeterkort&direction=asc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
+# kortgruppe=soekort&kortgruppe=centimeterkort&direction=asc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
+GET {{api_baseurl}}/kort?kortgruppe=soekort&kortgruppe=centimeterkort&direction=asc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
 token: {{token}}
 
 ###
-# arketype=soekort|centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
-GET {{api_baseurl}}/kort?arketype=soekort|centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
+# kortgruppe=soekort|centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
+GET {{api_baseurl}}/kort?kortgruppe=soekort|centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
 token: {{token}}
 
 ###
-# arketype=soekort&arketype=centimeterkort&direction=asc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100
-GET {{api_baseurl}}/kort?arketype=soekort&arketype=centimeterkort&direction=asc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100
+# kortgruppe=soekort&kortgruppe=centimeterkort&direction=asc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100
+GET {{api_baseurl}}/kort?kortgruppe=soekort&kortgruppe=centimeterkort&direction=asc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100
 token: {{token}}
 
 ###
@@ -70,8 +70,8 @@ GET {{api_baseurl}}/kort?daekningsomraade=andre
 token: {{token}}
 
 ###
-# arketype=soekort&arketype=centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
-GET {{api_baseurl}}/kort?arketype=soekort&arketype=centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype
+# kortgruppe=soekort&kortgruppe=centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
+GET {{api_baseurl}}/kort?kortgruppe=soekort&kortgruppe=centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe
 token: {{token}}
 
 ###
@@ -80,63 +80,63 @@ GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland
 token: {{token}}
 
 ###
-# arketype=centimeterkort&gaeldendefra=2000&sort=gaeldendefra&direction=asc
-GET {{api_baseurl}}/kort?arketype=centimeterkort&gaeldendefra=2000&sort=gaeldendefra&direction=asc
+# kortgruppe=centimeterkort&gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
+GET {{api_baseurl}}/kort?kortgruppe=centimeterkort&gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
 token: {{token}}
 
 ###
-# gaeldendefra=2000&sort=gaeldendefra&direction=desc
-GET {{api_baseurl}}/kort?gaeldendefra=2000&sort=gaeldendefra&direction=desc
+# gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
 token: {{token}}
 
 ###
-# gaeldendefra=2000&sort=gaeldendetil&direction=asc
-GET {{api_baseurl}}/kort?gaeldendefra=2000&sort=gaeldendetil&direction=asc
+# gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
 token: {{token}}
 
 ###
-# gaeldendefra=2000&sort=gaeldendetil&direction=desc
-GET {{api_baseurl}}/kort?gaeldendefra=2000&sort=gaeldendetil&direction=desc
+# gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
 token: {{token}}
 
 ###
-# gaeldendetil=2000&sort=gaeldendefra&direction=asc
-GET {{api_baseurl}}/kort?gaeldendetil=2000&sort=gaeldendefra&direction=asc
+# gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
 token: {{token}}
 
 ###
-# gaeldendetil=2000&sort=gaeldendefra&direction=desc
-GET {{api_baseurl}}/kort?gaeldendetil=2000&sort=gaeldendefra&direction=desc
+# gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
 token: {{token}}
 
 ###
-# gaeldendetil=2000&sort=gaeldendetil&direction=asc
-GET {{api_baseurl}}/kort?gaeldendetil=2000&sort=gaeldendetil&direction=asc
+# gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
 token: {{token}}
 
 ###
-# gaeldendetil=2000&sort=gaeldendetil&direction=desc
-GET {{api_baseurl}}/kort?gaeldendetil=2000&sort=gaeldendetil&direction=desc
+# gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
 token: {{token}}
 
 ###
-# gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendefra&direction=asc
-GET {{api_baseurl}}/kort?gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendefra&direction=asc
+# gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=asc
 token: {{token}}
 
 ###
-# gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendefra&direction=desc
-GET {{api_baseurl}}/kort?gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendefra&direction=desc
+# gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendefra&direction=desc
 token: {{token}}
 
 ###
-# gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendetil&direction=asc
-GET {{api_baseurl}}/kort?gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendetil&direction=asc
+# gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=asc
 token: {{token}}
 
 ###
-# gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendetil&direction=desc
-GET {{api_baseurl}}/kort?gaeldendefra=1950&gaeldendetil=2000&sort=gaeldendetil&direction=desc
+# gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&sort=gaeldendeperiode_gaeldendetil&direction=desc
 token: {{token}}
 
 ###
@@ -145,13 +145,13 @@ GET {{api_baseurl}}/kort?daekningsomraade=Slesvig|Danmark&sort=daekningsomraade&
 token: {{token}}
 
 ###
-# Multiple arketyper arketype=soekort&arketype=centimeterkort
-GET {{api_baseurl}}/kort?arketype=soekort&arketype=centimeterkort
+# Multiple arketyper kortgruppe=soekort&kortgruppe=centimeterkort
+GET {{api_baseurl}}/kort?kortgruppe=soekort&kortgruppe=centimeterkort
 token: {{token}}
 
 ###
-# Multiple arketyper arketype=soekort|centimeterkort
-GET {{api_baseurl}}/kort?arketype=soekort|centimeterkort
+# Multiple arketyper kortgruppe=soekort|centimeterkort
+GET {{api_baseurl}}/kort?kortgruppe=soekort|centimeterkort
 token: {{token}}
 
 ###
@@ -166,8 +166,8 @@ Accept: application/json
 token: {{token}}
 
 ###
-# arketype=soekort&arketype=centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype&token={{token}}
-GET {{api_baseurl}}/kort?arketype=soekort&arketype=centimeterkort&direction=desc&gaeldendefra=-1&gaeldendetil=-1&offset=0&limit=100&sort=arketype&token={{token}}
+# kortgruppe=soekort&kortgruppe=centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe&token={{token}}
+GET {{api_baseurl}}/kort?kortgruppe=soekort&kortgruppe=centimeterkort&direction=desc&gaeldendeperiode_gaeldendefra=-1&gaeldendeperiode_gaeldendetil=-1&offset=0&limit=100&sort=kortgruppe&token={{token}}
 token: {{token}}
 
 ###
@@ -176,13 +176,13 @@ GET {{api_baseurl}}/kort?tegner=sørensen
 token: {{token}}
 
 ###
-# gaeldendefra=1950&gaeldendetil=2000&arketype=centimeterkort
-GET {{api_baseurl}}/kort?gaeldendefra=1950&gaeldendetil=2000&arketype=centimeterkort
+# gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&kortgruppe=centimeterkort
+GET {{api_baseurl}}/kort?gaeldendeperiode_gaeldendefra=1950&gaeldendeperiode_gaeldendetil=2000&kortgruppe=centimeterkort
 token: {{token}}
 
 ###
-# fritekstsoegning=Sønderjylland&sort=arketype&direction=desc
-GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland&sort=arketype&direction=desc
+# fritekstsoegning=Sønderjylland&sort=kortgruppe&direction=desc
+GET {{api_baseurl}}/kort?fritekstsoegning=Sønderjylland&sort=kortgruppe&direction=desc
 token: {{token}}
 
 ###

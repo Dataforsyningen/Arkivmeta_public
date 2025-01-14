@@ -1,9 +1,9 @@
 package dk.dataforsyningen.arkivmeta.kort.service;
 
-import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
-import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.DaekningsomraadeDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortDto;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.Kortvaerk;
+import dk.dataforsyningen.arkivmeta.kort.apimodel.KortgruppeWithKortvaerkerDto;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortParam;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.KortResult;
 import dk.dataforsyningen.arkivmeta.kort.apimodel.MaalestokDto;
@@ -15,6 +15,7 @@ import dk.dataforsyningen.arkivmeta.kort.rest.KortApi;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -65,23 +66,21 @@ public class KortService implements IKortService {
   }
 
   /**
-   * Kort's id in the database consists of it's arketype and id. There can be given incorrect arketype and/or id, so
-   * there is used Optional to take care if the result is null.
+   * Kort's UUID.
+   * There can be given incorrect kortgruppe and/or id, so there is used Optional to take care if the result is null.
    * Because Gravitee does not set X-Forwarded-* headers it's needed to manually set them.
    * Need to replace the url return from concatXFHeaders and add /iiif/3 to the url because of Cantaloupe
    *
-   * @param arketype
    * @param id
    * @return kortDto with the matching datamodel of the kort
    */
   @Override
-  public KortDto getKortById(String arketype, String id) {
-    String searchId = arketype + "/" + id;
+  public KortDto getKortById(UUID id) {
 
-    Optional<KortDto> returnedKort = iKortDao.getKortById(searchId);
+    Optional<KortDto> returnedKort = iKortDao.getKortById(id);
 
     return returnedKort.orElseThrow(
-        () -> new NoSuchElementException("Intet kort matchede det givne id: " + searchId));
+        () -> new NoSuchElementException("Intet kort matchede det givne id: " + id));
   }
 
   /**
@@ -135,8 +134,8 @@ public class KortService implements IKortService {
     System.out.println(kortvaerk);
 
     List<KortDto> kortDtoList = iKortDao.getAllKort(
-        kortParam.getArketype(), daekningsomraade, kortParam.getFritekstsoegning(),
-        kortParam.getGaeldendefra(), kortParam.getGaeldendetil(), area,
+        kortParam.getKortgruppe(), daekningsomraade, kortParam.getFritekstsoegning(),
+        kortParam.getGaeldendeperiode_gaeldendefra(), kortParam.getGaeldendeperiode_gaeldendetil(), area,
         kortParam.getKortbladnummer(), kortvaerk.toList(), kortParam.getMaalestok(), kortParam.getTegner(),
         kortParam.getTitel(), kortParam.getLimit(), kortParam.getOffset(), kortParam.getSort(),
         kortParam.getDirection());
@@ -144,8 +143,8 @@ public class KortService implements IKortService {
     long count;
 
     if (kortDtoList.size() >= kortParam.getLimit()) {
-      count = iKortDao.getCount(kortParam.getArketype(), daekningsomraade,
-          kortParam.getFritekstsoegning(), kortParam.getGaeldendefra(), kortParam.getGaeldendetil(),
+      count = iKortDao.getCount(kortParam.getKortgruppe(), daekningsomraade,
+          kortParam.getFritekstsoegning(), kortParam.getGaeldendeperiode_gaeldendefra(), kortParam.getGaeldendeperiode_gaeldendetil(),
           area, kortParam.getKortbladnummer(), kortvaerk.toList(), kortParam.getMaalestok(),
           kortParam.getTegner(), kortParam.getTitel());
     } else {
